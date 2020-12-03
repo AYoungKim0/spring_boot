@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ksmart37.ksmart_mybatis.mapper.GoodsMapper">
+	<resultMap type="Goods" id="resultMapGoods">
+		<result column="g_code" 		property="goodsCode"/>
+		<result column="g_name" 		property="goodsName"/>
+		<result column="g_price" 		property="goodsPrice"/>
+		<result column="g_seller_id" 	property="goodsSellerId"/>
+		<result column="g_reg_date" 	property="goodsRegDate"/>
+	</resultMap>
+	
+	<update id="modifyGoods" parameterType="Goods">
+		UPDATE tb_goods
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="goodsName neq null and goodsName neq ''.toString()">
+				g_name = #{goodsName},
+			</if>
+			<if test="goodsPrice neq null and goodsPrice neq ''.toString()">
+				g_price = #{goodsPrice},
+			</if>
+		</trim>
+		WHERE
+			g_code = #{goodsCode};
+	
+	</update>
+	
+	
+	<select id="getGoodsByCode" parameterType="String" resultMap="resultMapGoods">
+		SELECT
+		 	 g_code
+			,g_name
+			,g_price
+			,g_seller_id
+			,g_reg_date
+		FROM
+			tb_goods
+		WHERE
+			g_code = #{goodsCode};	
+	</select>
+	
+</mapper>
